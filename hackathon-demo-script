@@ -1,0 +1,35 @@
+# restart ganache app
+npm run console -- --network ganache
+migrate
+
+const contractAddress = #copy paste
+
+web3.eth.getAccounts(function(err,res) { accounts = res; });
+const trr = accounts[0];
+const consignor = accounts[1];
+const buyer = accounts[2];
+
+ const { abi } = require('./build/contracts/TRRToken.json');
+ const TRRTokenContract = web3.eth.contract(abi);
+ const TRRTokenInstance = TRRTokenContract.at(contractAddress);
+
+
+TRRTokenInstance.symbol();
+#'TRR'
+TRRTokenInstance.name();
+# 'TRRToken'
+
+
+TRRTokenInstance.mint(consignor, '1234', { from: trr });
+
+TRRTokenInstance.setTokenPrice('1234', web3._extend.utils.toWei(10, 'ether'), { from: trr });
+
+TRRTokenInstance.balanceOf(consignor) # add display of token 
+
+TRRTokenInstance.buy('1234', {from: buyer, value: web3._extend.utils.toWei(10, 'ether'), gas: 30000})
+
+TRRTokenInstance.balanceOf(consignor) # add display of token 
+TRRTokenInstance.balanceOf(buyer) # add display of token 
+TRRTokenInstance.balanceOf(trr) # add display of token 
+
+# Ganache account balances 
