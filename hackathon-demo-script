@@ -1,17 +1,21 @@
+update truffle.js with the TRR account address
+
+npm run compile
+
 # restart ganache app
 npm run console -- --network ganache
 migrate
 
-const contractAddress = #copy paste
+contractAddress = "0x3d0e6b4a907b50b56a8272115ded12c4e979f5b6"#copy paste
 
 web3.eth.getAccounts(function(err,res) { accounts = res; });
-const trr = accounts[0];
-const consignor = accounts[1];
-const buyer = accounts[2];
+trr = accounts[0];
+consignor = accounts[1];
+buyer = accounts[2];
 
- const { abi } = require('./build/contracts/TRRToken.json');
- const TRRTokenContract = web3.eth.contract(abi);
- const TRRTokenInstance = TRRTokenContract.at(contractAddress);
+var { abi } = require('./build/contracts/TRRToken.json');
+TRRTokenContract = web3.eth.contract(abi);
+TRRTokenInstance = TRRTokenContract.at(contractAddress);
 
 
 TRRTokenInstance.symbol();
@@ -24,12 +28,17 @@ TRRTokenInstance.mint(consignor, '1234', { from: trr });
 
 TRRTokenInstance.setTokenPrice('1234', web3._extend.utils.toWei(10, 'ether'), { from: trr });
 
-TRRTokenInstance.balanceOf(consignor) # add display of token 
+TRRTokenInstance.setData('1234', '{"url": "https://www.therealreal.com/products/women/handbags/handle-bags/hermes-togo-birkin-35-335"}', { from: trr, gas: 300000});
+
+TRRTokenInstance.getData('1234')
+# JSON.parse(TRRTokenInstance.getData('1234')).url
+
+TRRTokenInstance.balanceOf(consignor) # add display of token
 
 TRRTokenInstance.buy('1234', {from: buyer, value: web3._extend.utils.toWei(10, 'ether'), gas: 30000})
 
-TRRTokenInstance.balanceOf(consignor) # add display of token 
-TRRTokenInstance.balanceOf(buyer) # add display of token 
-TRRTokenInstance.balanceOf(trr) # add display of token 
+TRRTokenInstance.balanceOf(consignor).toString() # add display of token
+TRRTokenInstance.balanceOf(buyer).toString() # add display of token
+TRRTokenInstance.balanceOf(trr).toString() # add display of token
 
-# Ganache account balances 
+# Ganache account balances
